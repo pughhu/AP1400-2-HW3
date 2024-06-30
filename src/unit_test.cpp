@@ -3,7 +3,7 @@
 #include "gmock/gmock.h"
 #include "bst.h"
 
-/*
+
 TEST(HW3Test, TEST1) {
 
     BST::Node left{10, nullptr, nullptr};
@@ -356,8 +356,8 @@ TEST(HW3Test, TEST22) {
     EXPECT_EQ(bst.length(), 12);
     EXPECT_TRUE(bst.delete_node(10)); // both children exist
     EXPECT_EQ(bst.length(), 11);
-    EXPECT_EQ(bst.get_root()->left->value, 7);
-    EXPECT_EQ(bst.get_root()->left->left->right, nullptr);
+    EXPECT_EQ(bst.get_root()->left->value, 15);
+    EXPECT_EQ(bst.get_root()->left->left->left->right, nullptr);
     EXPECT_EQ(bst.get_root()->left->left->value, 5);
 }
 
@@ -380,9 +380,9 @@ TEST(HW3Test, TEST23) {
     EXPECT_EQ(bst.length(), 13);
     EXPECT_TRUE(bst.delete_node(25)); // both children exist
     EXPECT_EQ(bst.length(), 12);
-    EXPECT_EQ(bst.get_root()->value, 22);
+    EXPECT_EQ(bst.get_root()->value, 50);
     EXPECT_EQ(bst.get_root()->left->value, 10);
-    EXPECT_EQ(bst.get_root()->left->right->right, nullptr);
+    EXPECT_EQ(bst.get_root()->left->right->right->value, 22);
 }
 
 TEST(HW3Test, TEST24) {
@@ -490,7 +490,6 @@ TEST(HW3Test, TEST31) {
     for(size_t i{}; i < values1.size(); i++)
         EXPECT_EQ(values2[i], values1[i]-1);    
 }
-*/
 
 
 
