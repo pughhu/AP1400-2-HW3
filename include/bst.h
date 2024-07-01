@@ -5,12 +5,6 @@
 #include <initializer_list>
 #include <iostream>
 
-// bool operator>(int n, BST::Node node);
-// bool operator>=(int n, BST::Node node);
-// bool operator<(int n, BST::Node node);
-// bool operator<=(int n, BST::Node node);
-// bool operator==(int n, BST::Node node);
-// std::ostream& operator<<(std::ostream& os, BST::Node& node);
 class BST
 {
 public:
@@ -35,7 +29,7 @@ public:
 	Node* left;
 	Node* right;
 
-    bool operator>(int);
+    // bool operator>(int);
     bool operator>=(int);
     bool operator<(int);   
     bool operator<=(int);
@@ -43,14 +37,12 @@ public:
 };
 
     BST():root{nullptr}{
-        // std::cout<<"BST():root{nullptr}{}"<<std::endl;
     }
 
     BST(std::initializer_list<int> nums) : root(nullptr) {
         for (int num : nums) {
             add_node(num);
         }
-        // std::cout<<"BST(std::initializer_list<int> nums) : root(nullptr) {}"<<std::endl;
     }
 
     BST(BST& bst){
@@ -134,6 +126,7 @@ private:
     Node* root;
 };
 
+bool operator>(const BST::Node& node, int n);
 bool operator>(int n, BST::Node& node);
 bool operator>=(int n, BST::Node& node);
 bool operator<(int n, BST::Node& node);

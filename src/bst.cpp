@@ -18,11 +18,8 @@ std::ostream& operator<<(std::ostream& os, BST& bst){
     os<<"********************************************************************************"<<std::endl;
     return os;
 }
-// 下面这样写会报错：非成员运算符要求类类型或枚举类型的参数
-// BST& operator++(int value){
-//     this->bfs([](Node*& node){++(node->value);});
-//     return *this;
-// }
+
+// 前缀形式 ++bst
 BST& BST::operator++(){
     this->bfs([](Node*& node){++(node->value);});
     return *this;
@@ -45,14 +42,14 @@ std::ostream& operator<<(std::ostream& os, BST::Node& node){
     return os;
 }
 
-// 这样写报错了，为什么?
-// bool operator>(BST::Node node, int n){
-//     return node.value > n;
-// }
-
-bool BST::Node::operator>(int n){
-    return this->value > n;
+// 下面两种写法都可以，一种是作为成员函数，一种是作为全局函数
+bool operator>(const BST::Node& node, int n){
+    return node.value > n;
 }
+
+// bool BST::Node::operator>(int n){
+//     return this->value > n;
+// }
 
 bool BST::Node::operator>=(int n){
     return this->value >= n;
@@ -90,27 +87,6 @@ bool operator<=(int n, BST::Node& node){
 bool operator==(int n, BST::Node& node){
     return node.value == n;
 }
-
-// BST::~BST()
-// {
-//     std::vector<Node*> nodes;
-//     bfs([&nodes](BST::Node*& node){nodes.push_back(node);});
-//     for(auto& node: nodes)
-//         delete node;
-// }
-
-// void BST::bfs(std::function<void(Node*& node)> func){
-//     std::deque<Node*> deq{root};
-//     std::queue<Node*> que(deq);
-    
-//     while(!que.empty()){
-//         auto front = que.front();
-//         que.pop();
-//         que.push(front->left);
-//         que.push(front->right);
-//         func(front);
-//     }
-// }
 
 void BST::bfs(std::function<void(Node*& node)> func) {
     if (root == nullptr) return;
@@ -173,24 +149,6 @@ static BST::Node* add_node_(BST::Node* node, int value){
     return node;
 }
 
-// bool BST::add_node(int value){
-//     bool added = false;
-//     std::function<BST::Node*(BST::Node*,int)> f = [&added,&f](BST::Node* node, int value)->BST::Node*{
-//         if(node == nullptr){
-//             added = true;
-//             return new BST::Node(value, nullptr, nullptr);
-//         }
-//         if(value < node->value) 
-//             node->left = f(node->left, value);
-//         else if(value > node->value)
-//             node->right = f(node->right, value);
-
-//         return node;        
-//     };
-//     f(root, value);
-//     return added;
-// }
-
 bool BST::add_node(int value) {
     if (root == nullptr) {
         root = new Node(value, nullptr, nullptr);
@@ -236,26 +194,6 @@ BST::Node** BST::find_node(int value){
     return f(&root, value);
 }
 
-// BST::Node** BST::find_parrent(int value){
-//     Node** parrent{};
-//     auto f = [value, &parrent](Node*& node){
-//         if((node->left)!=nullptr && node->left->value==value){
-//             std::cout<<"parent: "<<node->value<<std::endl;
-//             std::cout<<"left: "<<node->left->value<<std::endl;
-//             std::cout<<"right: "<<node->right->value<<std::endl;              
-//             parrent = &node;
-//         }
-//         if((node->right)!=nullptr && node->right->value==value){
-//             std::cout<<"parent: "<<node->value<<std::endl;
-//             std::cout<<"left: "<<node->left->value<<std::endl;
-//             std::cout<<"right: "<<node->right->value<<std::endl;          
-//             parrent = &node;
-//         }
-//     };
-//     BST::bfs(f);
-//     return parrent;
-// }
-
 BST::Node** BST::find_parrent(int value){
     Node** parrent{};
     auto f = [value, &parrent](Node**& node){
@@ -293,18 +231,6 @@ BST::Node** BST::find_successor(int value){
 
     return f(&root,value); 
 }
-
-// Node* successor(Node* root, int value){
-//     if(value >= root->value)
-//         return successor(root->right, value);
-//     if(root == nullptr)
-//         return nullptr;
-//     Node* t = successor(root->left, value);
-//     if(t == nullptr)
-//         return root;
-//     else
-//         return t;
-// }
 
 // 返回值表示对父节点的左子节点或右子节点的更新，具体比较value和node.value值大小决定更新左右
 static BST::Node* dele(BST::Node* node, int value){
